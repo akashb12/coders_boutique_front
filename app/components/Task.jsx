@@ -11,6 +11,15 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -37,7 +46,7 @@ const Task = ({ taskData }) => {
         let result = await editTodo({
             id: id,
             task: newTaskValue,
-            status:"completed"
+            status: status
         });
         if (!result.status) {
             setError(result.message);
@@ -85,7 +94,7 @@ const Task = ({ taskData }) => {
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="username" className="text-right">
+                            {/* <Label htmlFor="username" className="text-right">
                                 Status
                             </Label>
                             <Input
@@ -93,7 +102,21 @@ const Task = ({ taskData }) => {
                                 className="col-span-3"
                                 value={status}
                                 onChange={(e) => setStatus(e.target.value)}
-                            />
+                            /> */}
+                            <Label htmlFor="username" className="text-right">
+                                Status
+                            </Label>
+                            <Select onValueChange={(value) => setStatus(value)}>
+                                <SelectTrigger className="w-[280px]">
+                                    <SelectValue placeholder={status} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="completed">Completed</SelectItem>
+                                        <SelectItem value="pending">Pending</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                     <DialogFooter>
