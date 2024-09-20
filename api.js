@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:5000/api';
+const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api`;
 
 export const getAllTodos = async () => {
   const res = await fetch(`${baseUrl}/todos/listTodos`, { cache: 'no-store' });
