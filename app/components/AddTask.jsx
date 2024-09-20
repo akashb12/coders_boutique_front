@@ -22,7 +22,8 @@ const AddTask = () => {
     const [newTaskValue, setNewTaskValue] = useState("");
     const handleSubmitNewTodo = async () => {
         let result = await addTodo({
-            description: newTaskValue,
+            task: newTaskValue,
+            status:'pending'
         });
         if (!result.status) {
             setError(result.message);
@@ -46,7 +47,7 @@ const AddTask = () => {
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="username" className="text-right">
-                                Description
+                                Task
                             </Label>
                             <Input
                                 id="description"

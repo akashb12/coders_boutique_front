@@ -16,12 +16,13 @@ const TodoList = ({ tasks }) => {
             <TableHeader>
                 <TableRow>
                     <TableHead >Tasks</TableHead>
+                    <TableHead >Status</TableHead>
                     <TableHead className="text-center">Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {tasks.data.map((task) => (
-                    <Task key={task.id} task={task} />
+                    <Task key={task.id} taskData={task} />
                 ))}
             </TableBody>
         </Table>

@@ -18,23 +18,26 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const Task = ({ task }) => {
+const Task = ({ taskData }) => {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [error, setError] = useState('')
     const [newTaskValue, setNewTaskValue] = useState("");
+    const [status, setStatus] = useState("");
     const handleDeleteTask = async (id) => {
         await deleteTodo(id);
         router.refresh();
     };
-    const setupData = (description) => {
+    const setupData = (data) => {
         setOpen(true);
-        setNewTaskValue(description);
+        setNewTaskValue(data.task);
+        setStatus(data.status)
     }
     const handleUpdateTodos = async (id) => {
         let result = await editTodo({
             id: id,
-            description: newTaskValue,
+            task: newTaskValue,
+            status:"completed"
         });
         if (!result.status) {
             setError(result.message);
@@ -46,20 +49,21 @@ const Task = ({ task }) => {
     }
     return (
         <>
-            <TableRow key={task.id}>
-                <TableCell className="font-medium">{task.description}</TableCell>
+            <TableRow key={taskData.id}>
+                <TableCell className="font-medium">{taskData.task}</TableCell>
+                <TableCell className="font-medium">{taskData.status}</TableCell>
                 <TableCell className="flex justify-center">
                     <FiEdit
                         cursor='pointer'
                         className='text-blue-500'
                         size={18}
-                        onClick={() => setupData(task.description)}
+                        onClick={() => setupData(taskData)}
                     />
                     <FiTrash2
                         cursor='pointer'
                         className='text-red-500 ml-2'
                         size={18}
-                        onClick={() => handleDeleteTask(task.id)}
+                        onClick={() => handleDeleteTask(taskData.id)}
                     />
                 </TableCell>
             </TableRow>
@@ -71,7 +75,7 @@ const Task = ({ task }) => {
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="username" className="text-right">
-                                Description
+                                Task
                             </Label>
                             <Input
                                 id="description"
@@ -79,11 +83,21 @@ const Task = ({ task }) => {
                                 value={newTaskValue}
                                 onChange={(e) => setNewTaskValue(e.target.value)}
                             />
-                            {error && <span className="text-red-600 col-span-3 text-center">{error}</span>}
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="username" className="text-right">
+                                Status
+                            </Label>
+                            <Input
+                                id="description"
+                                className="col-span-3"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                            />
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="button" onClick={() => handleUpdateTodos(task.id)}>Update changes</Button>
+                        <Button type="button" onClick={() => handleUpdateTodos(taskData.id)}>Update changes</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
